@@ -1,0 +1,176 @@
+*, *::after, *::before, html, span {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Alle kleuren en verschillende gradients vastgelegd in root */
+:root {
+    --text_color_default: black;
+
+    --background_color_default: grey;
+
+    --color_switch_string_default: black;
+    --color_switch_ball_default: black;
+
+    --color_switch_string_hover: #d9ebff;
+    --color_switch_ball_hover: #d9ebff;
+
+    --gradient_color_philips_hover: linear-gradient(to right, #cde5ff, #b0c3ff, #cde5ff);
+    --gradient_color_background_hover: linear-gradient(to right, #729FD0, #2A3C78, #729FD0);
+    --gradient_color_hue_hover: linear-gradient(to right, #FF7878,#FFC898,#FFF89A,#CDF2CA,#A2CDCD,#D1E8E4,#CAB8FF, #FF7878);
+}
+
+/* Animatie voor het verplaatsen van de achtergrond kleuren van de tekst zodat deze continue veranderd */
+@keyframes move {
+	to {
+		background-position: 4500vh;
+	}
+}
+
+body {
+    overflow: hidden;
+    height: 100vh;
+    position: relative;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--background_default);
+}
+
+/* kleur en animatie van de achtergrond */
+body:has(> h1:hover) {
+    background-size: 400%;
+    background-image: var(--gradient_color_background_hover);
+
+    animation: move 900s linear infinite;
+}
+
+h1 {
+    position: absolute;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* 1e lichtschakelaar (touwtje) element in de default staat */
+h1::before {
+    content: "";
+    position: absolute;
+
+    top: 0vh;
+    left: 50%;
+	height: clamp(100px, 30vh, 300px);
+	width: 1em;
+	background-color: transparent;
+    transform: translate(-50%, -45vh);
+
+    background-image:
+		radial-gradient(var(--color_switch_ball_default) 0.5em, transparent 0.5em),    
+		linear-gradient(var(--color_switch_string_default), var(--color_switch_string_default));
+
+    background-size:
+		1em 1em,
+		.3em calc(100% - 0.9em);
+	background-repeat:no-repeat;
+	background-position:
+		bottom center;
+	
+    padding: 1em;    
+    transition:0.7s;
+}
+
+/* 1e lichtschakelaar (touwtje) element in de hover staat */
+h1:hover::before {
+	height:40vh;
+    background-image:
+		radial-gradient(var(--color_switch_ball_hover) 0.5em, transparent 0.5em),    
+		linear-gradient(var(--color_switch_string_hover), var(--color_switch_string_hover));
+}
+
+/* 2e lichtschakelaar (touwtje) element in de default staat. Deze staat altijd bovenaan en heeft geen animatie zodat er geen lege ruimte kan zijn door de animatie op het 1e touwtje */
+h1::after {
+    content: "";
+    position: absolute;
+
+    top: 0vh;
+    left: 50%;
+	height: clamp(50px, 30vh, 250px);
+	width: 1.2em;
+	background-color:transparent;
+    transform: translate(-50%, -50vh);
+
+/* 
+    background-image:  
+		linear-gradient(black, black); */
+    
+    background-size:
+		.3em;
+	background-repeat:no-repeat;
+	background-position:
+		top center;
+	
+    padding: 1em;    
+}
+
+/* 2e lichtschakelaar (touwtje) element in de hover staat. Deze staat altijd bovenaan en heeft geen animatie zodat er geen lege ruimte kan zijn door de animatie op het 1e touwtje */
+h1:hover::after {
+    background-image:
+        linear-gradient(var(--color_switch_string_hover), var(--color_switch_string_hover));
+}
+
+span {
+    font-size: clamp(1rem, 10vh, 4rem);
+}
+
+/* positionering van de letters "philips" binnen het grid */
+span:nth-of-type(1), span:nth-of-type(2), span:nth-of-type(3), span:nth-of-type(4), span:nth-of-type(5), span:nth-of-type(6), span:nth-of-type(7) {
+    -webkit-text-fill-color: var(--text_color_default);
+
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+/* positionering van de letters "hue" binnen het grid */
+span:nth-of-type(8) {
+    grid-column-start: 3;
+    grid-column-end: 4;
+}
+
+span:nth-of-type(9) {
+    grid-column-start: 4;
+    grid-column-end: 5;
+}
+
+span:nth-of-type(10) {
+    grid-column-start: 5;
+    grid-column-end: 6;
+}
+
+/* kleur en animatie van de letters "hilips" */
+h1:hover > span:nth-of-type(1), h1:hover > span:nth-of-type(2), h1:hover > span:nth-of-type(3), h1:hover > span:nth-of-type(4), h1:hover > span:nth-of-type(5), h1:hover > span:nth-of-type(6), h1:hover > span:nth-of-type(7) {
+    -webkit-text-fill-color: transparent;  
+    background-size: 400%;
+    background-image: var(--gradient_color_philips_hover);
+    -webkit-background-clip: text;
+
+    animation: move 1500s linear infinite;
+}
+
+/* kleur en animatie voor de letters "hue" */
+h1:hover {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;  
+  
+    background-image: var(--gradient_color_hue_hover);
+    animation: move 200s linear infinite;
+}
+
+/* schaduw toevoegen aan letters "hue" door de letters "philips" als uitzondering te geven */
+h1 :not(span:nth-of-type(1), span:nth-of-type(2), span:nth-of-type(3), span:nth-of-type(4), span:nth-of-type(5), span:nth-of-type(6), span:nth-of-type(7)) {
+    text-shadow: var(--color_switch_ball_hover) 1px 0 25px;
+}
+
+
+
